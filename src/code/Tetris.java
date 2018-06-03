@@ -12,9 +12,8 @@ public class Tetris extends JFrame {
      * The number of milliseconds per frame.
      */
     private static final long FRAME_TIME = 1000L / 50L;
-    /**
-     * The number of pieces that exist.
-     */
+
+    //zwraca ilość częsci z enum
     private static final int TYPE_COUNT = TileType.values().length;
     private BoardPanel board;
     private SidePanel side;

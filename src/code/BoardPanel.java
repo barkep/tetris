@@ -7,7 +7,6 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 public class BoardPanel extends JPanel {
-
     /**
      * Minimum color component values for tiles. This is required if we
      * want to show both light and dark shading on our tiles.
