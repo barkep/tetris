@@ -12,67 +12,20 @@ public class Tetris extends JFrame {
      * The number of milliseconds per frame.
      */
     private static final long FRAME_TIME = 1000L / 50L;
-
     /**
      * The number of pieces that exist.
      */
     private static final int TYPE_COUNT = TileType.values().length;
-
-    /**
-     * The BoardPanel instance.
-     */
     private BoardPanel board;
-
-    /**
-     * The SidePanel instance.
-     */
     private SidePanel side;
-
-    /**
-     * Whether or not the game is paused.
-     */
     private boolean isPaused;
-
-    /**
-     * Whether or not we've played a game yet. This is set to true
-     * initially and then set to false when the game starts.
-     */
     private boolean isNewGame;
-
-    /**
-     * Whether or not the game is over.
-     */
     private boolean isGameOver;
-
-    /**
-     * The current level we're on.
-     */
     private int level;
-
-    /**
-     * The current score.
-     */
     private int score;
-
-    /**
-     * The random number generator. This is used to
-     * spit out pieces randomly.
-     */
     private Random random;
-
-    /**
-     * The clock that handles the update logic.
-     */
     private Clock logicTimer;
-
-    /**
-     * The current type of tile.
-     */
     private TileType currentType;
-
-    /**
-     * The next type of tile.
-     */
     private TileType nextType;
 
     /**
@@ -96,15 +49,8 @@ public class Tetris extends JFrame {
      */
     private int dropCooldown;
 
-    /**
-     * The speed of the game.
-     */
     private float gameSpeed;
 
-    /**
-     * Creates a new Tetris instance. Sets up the window's properties,
-     * and adds a controller listener.
-     */
     private Tetris() {
         /*
          * Set the basic properties of the window.
@@ -114,21 +60,12 @@ public class Tetris extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
 
-        /*
-         * Initialize the BoardPanel and SidePanel instances.
-         */
         this.board = new BoardPanel(this);
         this.side = new SidePanel(this);
 
-        /*
-         * Add the BoardPanel and SidePanel instances to the window.
-         */
         add(board, BorderLayout.CENTER);
         add(side, BorderLayout.EAST);
 
-        /*
-         * Adds a custom anonymous KeyListener to the frame.
-         */
         addKeyListener(new KeyAdapter() {
 
             @Override
@@ -141,7 +78,7 @@ public class Tetris extends JFrame {
                      * paused and that there is no drop cooldown, then set the
                      * logic timer to run at a speed of 25 cycles per second.
                      */
-                    case KeyEvent.VK_S:
+                    case KeyEvent.VK_DOWN:
                         if (!isPaused && dropCooldown == 0) {
                             logicTimer.setCyclesPerSecond(25.0f);
                         }
@@ -152,7 +89,7 @@ public class Tetris extends JFrame {
                      * not paused and that the position to the left of the current
                      * position is valid. If so, we decrement the current column by 1.
                      */
-                    case KeyEvent.VK_A:
+                    case KeyEvent.VK_LEFT:
                         if (!isPaused && board.isValidAndEmpty(currentType, currentCol - 1, currentRow, currentRotation)) {
                             currentCol--;
                         }
@@ -163,7 +100,7 @@ public class Tetris extends JFrame {
                      * not paused and that the position to the right of the current
                      * position is valid. If so, we increment the current column by 1.
                      */
-                    case KeyEvent.VK_D:
+                    case KeyEvent.VK_RIGHT:
                         if (!isPaused && board.isValidAndEmpty(currentType, currentCol + 1, currentRow, currentRotation)) {
                             currentCol++;
                         }
@@ -175,21 +112,9 @@ public class Tetris extends JFrame {
                      * complexity of the rotation code, as well as it's similarity to clockwise
                      * rotation, the code for rotating the piece is handled in another method.
                      */
-                    case KeyEvent.VK_Q:
+                    case KeyEvent.VK_UP:
                         if (!isPaused) {
                             rotatePiece((currentRotation == 0) ? 3 : currentRotation - 1);
-                        }
-                        break;
-
-                    /*
-                     * Rotate Clockwise - When pressed, check to see that the game is not paused
-                     * and then attempt to rotate the piece clockwise. Because of the size and
-                     * complexity of the rotation code, as well as it's similarity to anticlockwise
-                     * rotation, the code for rotating the piece is handled in another method.
-                     */
-                    case KeyEvent.VK_E:
-                        if (!isPaused) {
-                            rotatePiece((currentRotation == 3) ? 0 : currentRotation + 1);
                         }
                         break;
 
@@ -216,13 +141,11 @@ public class Tetris extends JFrame {
                             resetGame();
                         }
                         break;
-
                 }
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-
                 switch (e.getKeyCode()) {
 
                     /*
@@ -230,14 +153,12 @@ public class Tetris extends JFrame {
                      * back to whatever the current game speed is and clear out
                      * any cycles that might still be elapsed.
                      */
-                    case KeyEvent.VK_S:
+                    case KeyEvent.VK_DOWN:
                         logicTimer.setCyclesPerSecond(gameSpeed);
                         logicTimer.reset();
                         break;
                 }
-
             }
-
         });
 
         /*
@@ -249,9 +170,6 @@ public class Tetris extends JFrame {
         setVisible(true);
     }
 
-    /**
-     * Starts the game running. Initializes everything and enters the game loop.
-     */
     private void startGame() {
         /*
          * Initialize our random number generator, logic timer, and new game variables.
@@ -463,102 +381,46 @@ public class Tetris extends JFrame {
         }
     }
 
-    /**
-     * Checks to see whether or not the game is paused.
-     *
-     * @return Whether or not the game is paused.
-     */
     public boolean isPaused() {
         return isPaused;
     }
 
-    /**
-     * Checks to see whether or not the game is over.
-     *
-     * @return Whether or not the game is over.
-     */
     public boolean isGameOver() {
         return isGameOver;
     }
 
-    /**
-     * Checks to see whether or not we're on a new game.
-     *
-     * @return Whether or not this is a new game.
-     */
     public boolean isNewGame() {
         return isNewGame;
     }
 
-    /**
-     * Gets the current score.
-     *
-     * @return The score.
-     */
     public int getScore() {
         return score;
     }
 
-    /**
-     * Gets the current level.
-     *
-     * @return The level.
-     */
     public int getLevel() {
         return level;
     }
 
-    /**
-     * Gets the current type of piece we're using.
-     *
-     * @return The piece type.
-     */
     public TileType getPieceType() {
         return currentType;
     }
 
-    /**
-     * Gets the next type of piece we're using.
-     *
-     * @return The next piece.
-     */
     public TileType getNextPieceType() {
         return nextType;
     }
 
-    /**
-     * Gets the column of the current piece.
-     *
-     * @return The column.
-     */
     public int getPieceCol() {
         return currentCol;
     }
 
-    /**
-     * Gets the row of the current piece.
-     *
-     * @return The row.
-     */
     public int getPieceRow() {
         return currentRow;
     }
 
-    /**
-     * Gets the rotation of the current piece.
-     *
-     * @return The rotation.
-     */
     public int getPieceRotation() {
         return currentRotation;
     }
 
-    /**
-     * Entry-point of the game. Responsible for creating and starting a new
-     * game instance.
-     *
-     * @param args Unused.
-     */
     public static void main(String[] args) {
         Tetris tetris = new Tetris();
         tetris.startGame();

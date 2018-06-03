@@ -22,10 +22,6 @@ public class Clock {
      * The amount of excess time towards the next elapsed cycle.
      */
     private float excessCycles;
-
-    /**
-     * Whether or not the clock is paused.
-     */
     private boolean isPaused;
 
     /**
