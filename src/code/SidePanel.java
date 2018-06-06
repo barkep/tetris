@@ -8,12 +8,12 @@ import javax.swing.JPanel;
 
 public class SidePanel extends JPanel {
 
-    private static final int TILE_SIZE = BoardPanel.TILE_SIZE >> 1;
-    private static final int SHADE_WIDTH = BoardPanel.SHADE_WIDTH >> 1;
+    private static final int TILE_SIZE = BoardPanel.TILE_SIZE / 2;
+    private static final int SHADE_WIDTH = BoardPanel.SHADE_WIDTH / 2;
     private static final int TILE_COUNT = 5;
     private static final int SQUARE_CENTER_X = 90;
     private static final int SQUARE_CENTER_Y = 65;
-    private static final int SQUARE_SIZE = (TILE_SIZE * TILE_COUNT >> 1);
+    private static final int SQUARE_SIZE = (TILE_SIZE * TILE_COUNT / 2);
     private static final int INSET = 50;
     private static final int TEXT_INSET = 140;
     private static final int TEXT_STRIDE = 25;
@@ -25,7 +25,6 @@ public class SidePanel extends JPanel {
 
     public SidePanel(Tetris tetris) {
         this.tetris = tetris;
-
         setPreferredSize(new Dimension(200, BoardPanel.PANEL_HEIGHT));
         setBackground(Color.BLACK);
     }
@@ -37,7 +36,7 @@ public class SidePanel extends JPanel {
         g.setColor(DRAW_COLOR);
         int offset;
         g.setFont(LARGE_FONT);
-        g.drawString("Wynik: " + tetris.getScore(), INSET, offset = TEXT_INSET);
+        g.drawString("  Wynik: " + tetris.getScore(), INSET, offset = TEXT_INSET);
         g.drawString("Sterowanie", INSET, offset += TEXT_STRIDE);
         g.setFont(SMALL_FONT);
         g.drawString("← - w lewo", INSET, offset += TEXT_STRIDE);
