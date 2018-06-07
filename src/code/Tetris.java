@@ -12,8 +12,6 @@ public class Tetris extends JFrame {
      * The number of milliseconds per frame.
      */
     private static final long FRAME_TIME = 1000L / 50L;
-
-    //zwraca ilość częsci z enum
     private static final int TYPE_COUNT = TileType.values().length;
     private BoardPanel board;
     private SidePanel side;
@@ -306,6 +304,8 @@ public class Tetris extends JFrame {
      * values.
      */
     private void spawnPiece() {
+        Sound sound = new Sound("piece.wav");
+        sound.play();
         /*
          * Poll the last piece and reset our position and rotation to
          * their default variables, then pick the next piece to use.
@@ -332,6 +332,8 @@ public class Tetris extends JFrame {
      * @param newRotation The rotation of the new peice.
      */
     private void rotatePiece(int newRotation) {
+        Sound sound = new Sound("rotate.wav");
+        sound.play();
         /*
          * Sometimes pieces will need to be moved when rotated to avoid clipping
          * out of the board (the I piece is a good example of this). Here we store
