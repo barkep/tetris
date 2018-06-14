@@ -13,6 +13,7 @@ public class Clock {
         reset();
     }
 
+
     public void setCyclesPerSecond(float cyclesPerSecond) {
         this.millisPerCycle = (1.0f / cyclesPerSecond) * 1000;
     }
@@ -32,16 +33,11 @@ public class Clock {
             this.elapsedCycles += (int) Math.floor(delta / millisPerCycle);
             this.excessCycles = delta % millisPerCycle;
         }
-
         this.lastUpdate = currUpdate;
     }
 
     public void setPaused(boolean paused) {
         this.isPaused = paused;
-    }
-
-    public boolean isPaused() {
-        return isPaused;
     }
 
     public boolean hasElapsedCycle() {
@@ -50,10 +46,6 @@ public class Clock {
             return true;
         }
         return false;
-    }
-
-    public boolean peekElapsedCycle() {
-        return (elapsedCycles > 0);
     }
 
     private static final long getCurrentTime() {

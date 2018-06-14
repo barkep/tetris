@@ -4,101 +4,28 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class BoardPanel extends JPanel {
-    /**
-     * Minimum color component values for tiles. This is required if we
-     * want to show both light and dark shading on our tiles.
-     */
+
     public static final int COLOR_MIN = 35;
-
-    /**
-     * Maximum color component values for tiles. This is required if we
-     * want to show both light and dark shading on our tiles.
-     */
     public static final int COLOR_MAX = 255 - COLOR_MIN;
-
-    /**
-     * The width of the border around the game board.
-     */
     private static final int BORDER_WIDTH = 5;
-
-    /**
-     * The number of columns on the board.
-     */
     public static final int COL_COUNT = 10;
-
-    /**
-     * The number of visible rows on the board.
-     */
     private static final int VISIBLE_ROW_COUNT = 20;
-
-    /**
-     * The number of rows that are hidden from view.
-     */
     private static final int HIDDEN_ROW_COUNT = 2;
-
-    /**
-     * The total number of rows that the board contains.
-     */
     public static final int ROW_COUNT = VISIBLE_ROW_COUNT + HIDDEN_ROW_COUNT;
-
-    /**
-     * The number of pixels that a tile takes up.
-     */
     public static final int TILE_SIZE = 24;
-
-    /**
-     * The width of the shading on the tiles.
-     */
     public static final int SHADE_WIDTH = 4;
-
-    /**
-     * The central x coordinate on the game board.
-     */
     private static final int CENTER_X = COL_COUNT * TILE_SIZE / 2;
-
-    /**
-     * The central y coordinate on the game board.
-     */
     private static final int CENTER_Y = VISIBLE_ROW_COUNT * TILE_SIZE / 2;
-
-    /**
-     * The total width of the panel.
-     */
     public static final int PANEL_WIDTH = COL_COUNT * TILE_SIZE + BORDER_WIDTH * 2;
-
-    /**
-     * The total height of the panel.
-     */
     public static final int PANEL_HEIGHT = VISIBLE_ROW_COUNT * TILE_SIZE + BORDER_WIDTH * 2;
-
-    /**
-     * The larger font to display.
-     */
     private static final Font LARGE_FONT = new Font("Tahoma", Font.BOLD, 16);
-
-    /**
-     * The smaller font to display.
-     */
     private static final Font SMALL_FONT = new Font("Tahoma", Font.BOLD, 12);
-
-    /**
-     * The Tetris instance.
-     */
     private Tetris tetris;
-
-    /**
-     * The tiles that make up the board.
-     */
     private TileType[][] tiles;
 
-    /**
-     * Crates a new GameBoard instance.
-     *
-     * @param tetris The Tetris instance to use.
-     */
     public BoardPanel(Tetris tetris) {
         this.tetris = tetris;
         this.tiles = new TileType[ROW_COUNT][COL_COUNT];
@@ -107,14 +34,7 @@ public class BoardPanel extends JPanel {
         setBackground(Color.BLACK);
     }
 
-    /**
-     * Resets the board and clears away any tiles.
-     */
     public void clear() {
-        /*
-         * Loop through every tile index and set it's value
-         * to null to clear the board.
-         */
         for (int i = 0; i < ROW_COUNT; i++) {
             for (int j = 0; j < COL_COUNT; j++) {
                 tiles[i][j] = null;
@@ -169,11 +89,6 @@ public class BoardPanel extends JPanel {
      * @param rotation The rotation of the piece.
      */
     public void addPiece(TileType type, int x, int y, int rotation) {
-        /*
-         * Loop through every tile within the piece and add it
-         * to the board only if the boolean that represents that
-         * tile is set to true.
-         */
         for (int col = 0; col < type.getDimension(); col++) {
             for (int row = 0; row < type.getDimension(); row++) {
                 if (type.isTile(col, row, rotation)) {
@@ -295,10 +210,10 @@ public class BoardPanel extends JPanel {
              * we can handle them together and just use a ternary operator to change
              * the messages that are displayed.
              */
-            String msg = tetris.isNewGame() ? "TETRIS" : "GAME OVER";
+            String msg = tetris.isNewGame() ? "TETRIS" : "KONIEC GRY";
             g.drawString(msg, CENTER_X - g.getFontMetrics().stringWidth(msg) / 2, 150);
             g.setFont(SMALL_FONT);
-            msg = "Press Enter to Play" + (tetris.isNewGame() ? "" : " Again");
+            msg = "Naciśnij enter aby kontynuwać";
             g.drawString(msg, CENTER_X - g.getFontMetrics().stringWidth(msg) / 2, 300);
         } else {
 
@@ -406,29 +321,17 @@ public class BoardPanel extends JPanel {
      */
     private void drawTile(Color base, Color light, Color dark, int x, int y, Graphics g) {
 
-        /*
-         * Fill the entire tile with the base color.
-         */
         g.setColor(base);
         g.fillRect(x, y, TILE_SIZE, TILE_SIZE);
 
-        /*
-         * Fill the bottom and right edges of the tile with the dark shading color.
-         */
         g.setColor(dark);
         g.fillRect(x, y + TILE_SIZE - SHADE_WIDTH, TILE_SIZE, SHADE_WIDTH);
         g.fillRect(x + TILE_SIZE - SHADE_WIDTH, y, SHADE_WIDTH, TILE_SIZE);
 
-        /*
-         * Fill the top and left edges with the light shading. We draw a single line
-         * for each row or column rather than a rectangle so that we can draw a nice
-         * looking diagonal where the light and dark shading meet.
-         */
         g.setColor(light);
         for (int i = 0; i < SHADE_WIDTH; i++) {
             g.drawLine(x, y + i, x + TILE_SIZE - i - 1, y + i);
             g.drawLine(x + i, y, x + i, y + TILE_SIZE - i - 1);
         }
     }
-
 }
