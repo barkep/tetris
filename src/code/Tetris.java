@@ -15,7 +15,6 @@ public class Tetris extends JFrame {
     private boolean isPaused;
     private boolean isNewGame;
     private boolean isGameOver;
-    private int level;
     private int score;
     private Random random;
     private Clock logicTimer;
@@ -24,7 +23,6 @@ public class Tetris extends JFrame {
     private int currentCol;
     private int currentRow;
     private int currentRotation;
-    private int dropCooldown;
     private float gameSpeed;
 
     private Tetris() {
@@ -45,7 +43,7 @@ public class Tetris extends JFrame {
             @Override
             public void keyPressed(KeyEvent e) {
 
-                if (e.getKeyCode() == KeyEvent.VK_DOWN && !isPaused && dropCooldown == 0) {
+                if (e.getKeyCode() == KeyEvent.VK_DOWN && !isPaused) {
                     logicTimer.setCyclesPerSecond(25.0f);
                 } else if (e.getKeyCode() == KeyEvent.VK_LEFT && !isPaused && board.isValidAndEmpty(currentType, currentCol - 1, currentRow, currentRotation)) {
                     currentCol--;
@@ -92,10 +90,6 @@ public class Tetris extends JFrame {
                 updateGame();
             }
 
-            if (dropCooldown > 0) {
-                dropCooldown--;
-            }
-
             renderGame();
 
             long delta = (System.nanoTime() - start) / 1000000L;
@@ -118,13 +112,11 @@ public class Tetris extends JFrame {
 
             int cleared = board.checkLines();
             if (cleared > 0) {
-                score += 50 << cleared;
+                score += 5 << cleared;
             }
             gameSpeed += 0.035f;
             logicTimer.setCyclesPerSecond(gameSpeed);
             logicTimer.reset();
-            dropCooldown = 25;
-            level = (int) (gameSpeed * 1.70f);
             spawnPiece();
         }
     }
@@ -135,7 +127,6 @@ public class Tetris extends JFrame {
     }
 
     private void resetGame() {
-        this.level = 1;
         this.score = 0;
         this.gameSpeed = 1.0f;
         this.nextType = TileType.values()[random.nextInt(TYPE_COUNT)];

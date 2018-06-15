@@ -94,6 +94,8 @@ public class BoardPanel extends JPanel {
                 setTile(col, row + 1, getTile(col, row));
             }
         }
+        Sound sound = new Sound("line.wav");
+        sound.play();
         return true;
     }
 
@@ -118,7 +120,7 @@ public class BoardPanel extends JPanel {
         if (tetris.isPaused()) {
             g.setFont(LARGE_FONT);
             g.setColor(Color.WHITE);
-            String msg = "PAUSED";
+            String msg = "PAUZA";
             g.drawString(msg, CENTER_X - g.getFontMetrics().stringWidth(msg) / 2, CENTER_Y);
         } else if (tetris.isNewGame() || tetris.isGameOver()) {
             g.setFont(LARGE_FONT);
@@ -127,10 +129,9 @@ public class BoardPanel extends JPanel {
             String msg = tetris.isNewGame() ? "TETRIS" : "KONIEC GRY";
             g.drawString(msg, CENTER_X - g.getFontMetrics().stringWidth(msg) / 2, 150);
             g.setFont(SMALL_FONT);
-            msg = "Naciśnij enter aby kontynuwać";
+            msg = "Naciśnij enter aby kontynuować";
             g.drawString(msg, CENTER_X - g.getFontMetrics().stringWidth(msg) / 2, 300);
         } else {
-
             for (int x = 0; x < COL_COUNT; x++) {
                 for (int y = HIDDEN_ROW_COUNT; y < ROW_COUNT; y++) {
                     TileType tile = getTile(x, y);
@@ -154,7 +155,7 @@ public class BoardPanel extends JPanel {
             }
 
             Color base = type.getBaseColor();
-            base = new Color(base.getRed(), base.getGreen(), base.getBlue(), 20);
+            base = new Color(base.getRed(), base.getGreen(), base.getBlue(), 50);
             for (int lowest = pieceRow; lowest < ROW_COUNT; lowest++) {
                 if (isValidAndEmpty(type, pieceCol, lowest, rotation)) {
                     continue;
