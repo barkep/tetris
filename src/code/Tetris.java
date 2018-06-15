@@ -12,7 +12,6 @@ public class Tetris extends JFrame {
     private static final int TYPE_COUNT = TileType.values().length;
     private BoardPanel board;
     private SidePanel side;
-    private AnimiationPanel animiation;
     private boolean isPaused;
     private boolean isNewGame;
     private boolean isGameOver;
@@ -37,11 +36,9 @@ public class Tetris extends JFrame {
 
         this.board = new BoardPanel(this);
         this.side = new SidePanel(this);
-//        this.animiation= new AnimiationPanel(this);
 
         add(board, BorderLayout.EAST);
         add(side, BorderLayout.WEST);
-//        add(animiation, BorderLayout.SOUTH);
 
         addKeyListener(new KeyAdapter() {
 
@@ -77,8 +74,6 @@ public class Tetris extends JFrame {
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
-
-//        new Thread(animiation).start();
     }
 
     private void startGame() {

@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-public class SidePanel extends JPanel{
+public class SidePanel extends JPanel {
 
     private static final int TILE_SIZE = BoardPanel.TILE_SIZE / 2;
     private static final int SHADE_WIDTH = BoardPanel.SHADE_WIDTH / 2;
@@ -22,19 +22,18 @@ public class SidePanel extends JPanel{
     private static final int INSET = 50;
     private static final int TEXT_INSET = 140;
     private static final int TEXT_STRIDE = 25;
-    private static final int TETRIS_STRADE= 370;
+    private static final int TETRIS_STRIDE = 370;
     private static final Font SMALL_FONT = new Font("Tahoma", Font.BOLD, 11);
     private static final Font LARGE_FONT = new Font("Tahoma", Font.BOLD, 13);
     private static final Color DRAW_COLOR = new Color(128, 192, 128);
 
     private Tetris tetris;
-    private Timer timer;
     private BufferedImage bufferedImage;
-    private int frame;
+    private int frame=0;
 
     public SidePanel(Tetris tetris) {
         this.tetris = tetris;
-        setPreferredSize(new Dimension(PANEL_WIDTH,PANEL_HIGHT));
+        setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HIGHT));
         setBackground(Color.BLACK);
         loadPicture();
     }
@@ -43,7 +42,7 @@ public class SidePanel extends JPanel{
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.drawImage(bufferedImage.getSubimage(frame * 1100, 0, 1100, 176), INSET-30, TETRIS_STRADE, 160, 50, null);
+        g.drawImage(bufferedImage.getSubimage(frame * 1100, 0, 1100, 176), INSET - 30, TETRIS_STRIDE, 160, 50, null);
         g.setColor(DRAW_COLOR);
         int offset;
         g.setFont(LARGE_FONT);
@@ -98,7 +97,7 @@ public class SidePanel extends JPanel{
     }
 
 
-    private void loadPicture(){
+    private void loadPicture() {
         try {
             bufferedImage = ImageIO.read(getClass().getResource("/resources/tetris_name.png"));
         } catch (IOException e) {
